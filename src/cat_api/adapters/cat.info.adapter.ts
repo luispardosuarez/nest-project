@@ -8,7 +8,6 @@ export class CatInfoAdapter {
       catImage.url,
       catImage.width,
       catImage.height,
-      catImage.mime_type,
     );
   }
 }

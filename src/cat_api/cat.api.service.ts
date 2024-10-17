@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CatApiClient } from './cat.api.client';
-import { ICatImage } from './interfaces/ICatImage';
 
 @Injectable()
 export class CatApiService {
@@ -8,8 +7,7 @@ export class CatApiService {
 
   async getImage(): Promise<any> {
     try {
-      const catImage: Promise<ICatImage> = await this.catApiClient.get();
-      const imageURL = (await catImage).url;
+      const imageURL: string = (await this.catApiClient.get())?.url;
       if (imageURL) {
         return imageURL;
       } else {
