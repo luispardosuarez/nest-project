@@ -4,7 +4,7 @@ import { CatsController } from './cat.api.controller';
 import { CatApiService } from './cat.api.service';
 
 @Module({
-  providers: [CatApiClient, CatApiService],
   controllers: [CatsController],
+  providers: [CatApiClient, CatApiService],
 })
 export class CatApiModule {}
