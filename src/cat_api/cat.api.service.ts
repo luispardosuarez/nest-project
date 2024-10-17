@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CatApiClient } from './cat.api.client';
+import { CatInfoAdapter } from './adapters/cat.info.adapter';
+import { ICatImage } from './interfaces/ICatImage';
 
 @Injectable()
 export class CatApiService {
@@ -7,9 +9,12 @@ export class CatApiService {
 
   async getImage(): Promise<any> {
     try {
-      const imageURL: string = (await this.catApiClient.get())?.url;
-      if (imageURL) {
-        return imageURL;
+      const catImageData: ICatImage = await this.catApiClient.get();
+      if (catImageData) {
+        console.log('catImageData', catImageData);
+        const entidad = CatInfoAdapter.fromApi(catImageData);
+        console.log('entidad', entidad);
+        return entidad;
       } else {
         throw new Error('No se pudo obtener la imagen del gato');
       }

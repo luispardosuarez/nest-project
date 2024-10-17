@@ -1,8 +1,8 @@
 export class CatImage {
   constructor(
-    public id: string,
-    public url: string,
-    public width: number,
-    public height: number,
+    public identidad: string,
+    public link: string,
+    public ancho: number,
+    public altura: number,
   ) {}
 }
