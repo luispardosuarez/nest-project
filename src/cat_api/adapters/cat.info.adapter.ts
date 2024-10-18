@@ -2,12 +2,12 @@ import { ICatImage } from '../interfaces/ICatImage';
 import { CatImage } from '../entities/catimage';
 
 export class CatInfoAdapter {
-  static fromApi(catImage: ICatImage): CatImage {
+  static fromApi(catImage: ICatImage[]): CatImage {
     return new CatImage(
-      catImage.id,
-      catImage.url,
-      catImage.width,
-      catImage.height,
+      catImage[0].id,
+      catImage[0].url,
+      catImage[0].width,
+      catImage[0].height,
     );
   }
 }

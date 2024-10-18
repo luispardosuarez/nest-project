@@ -9,7 +9,7 @@ export class CatApiService {
 
   async getImage(): Promise<any> {
     try {
-      const catImageData: ICatImage = await this.catApiClient.get();
+      const catImageData: ICatImage[] = await this.catApiClient.get();
       if (catImageData) {
         console.log('catImageData', catImageData);
         const entidad = CatInfoAdapter.fromApi(catImageData);
