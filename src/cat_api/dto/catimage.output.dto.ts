@@ -1,7 +1,9 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNumber } from 'class-validator';
 
-export class CatImageDto {
+export class CatImageOutputDto {
   @IsString()
+  @ApiProperty({ name: 'id' })
   id: string;
 
   @IsString()

@@ -2,14 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { CatApiClient } from './cat.api.client';
 import { CatInfoAdapter } from './adapters/cat.info.adapter';
 import { ICatImage } from './interfaces/ICatImage';
+import { CatImageInputDTO } from './dto/catimage.input.dto';
 
 @Injectable()
 export class CatApiService {
   constructor(private readonly catApiClient: CatApiClient) {}
 
-  async getImage(): Promise<any> {
+  async getImage(input: CatImageInputDTO): Promise<any> {
     try {
-      const catImageData: ICatImage[] = await this.catApiClient.get();
+      const hasBreedsQuery =
+        input.hasBreeds !== undefined ? input.hasBreeds : true;
+      const catImageData: ICatImage[] =
+        await this.catApiClient.get(hasBreedsQuery);
       if (catImageData) {
         console.log('catImageData', catImageData);
         const entidad = CatInfoAdapter.fromApi(catImageData);
