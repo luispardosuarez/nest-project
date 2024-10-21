@@ -5,4 +5,6 @@ export class CatImage {
     public ancho: number,
     public altura: number,
   ) {}
+
+  breeds?: Breed[];
 }
