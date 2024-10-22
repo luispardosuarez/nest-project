@@ -10,14 +10,14 @@ export class CatApiService {
 
   async getImage(input: CatImageInputDTO): Promise<any> {
     try {
-      const hasBreedsQuery = !input.hasBreeds ? false : true;
+      const hasBreedsQuery = !!input.hasBreeds;
 
       const catImageData: ICatImage[] =
         await this.catApiClient.get(hasBreedsQuery);
 
       if (catImageData) {
         console.log('catImageData', catImageData);
-        const entidad = CatInfoAdapter.fromApi(catImageData);
+        const entidad = CatInfoAdapter.fromApi(catImageData, hasBreedsQuery);
         console.log('entidad', entidad);
         return entidad;
       } else {

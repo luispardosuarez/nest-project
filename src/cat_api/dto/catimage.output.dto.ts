@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNumber } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsString, IsNumber, IsOptional, IsArray } from 'class-validator';
 
 export class CatImageOutputDto {
   @IsString()
@@ -14,4 +14,9 @@ export class CatImageOutputDto {
 
   @IsNumber()
   height: number;
+
+  @IsOptional()
+  @IsArray()
+  @ApiPropertyOptional()
+  breeds?: string[];
 }

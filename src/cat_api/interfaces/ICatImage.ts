@@ -1,5 +1,5 @@
 export interface ICatImage {
-  breeds: any[];
+  breeds?: string[];
   id: string;
   url: string;
   width: number;
