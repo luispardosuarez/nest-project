@@ -12,6 +12,8 @@ export class CatInfoAdapter {
     // if (hasBreeds) catImage.breeds.push(iCatImage[0].breeds)
     if (hasBreeds && iCatImage[0].breeds) {
       catImage.breeds = iCatImage[0].breeds;
+    } else {
+      catImage.breeds = [];
     }
 
     return catImage;
