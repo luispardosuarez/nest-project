@@ -10,15 +10,29 @@ export class CatApiService {
 
   async getImage(input: CatImageInputDTO): Promise<any> {
     try {
-      const hasBreedsQuery = !!input.hasBreeds;
+      const hasBreedsOutput = input.hasBreeds;
 
       const catImageData: ICatImage[] =
-        await this.catApiClient.get(hasBreedsQuery);
+        await this.catApiClient.get(hasBreedsOutput);
 
       if (catImageData) {
         console.log('catImageData', catImageData);
-        const entidad = CatInfoAdapter.fromApi(catImageData, hasBreedsQuery);
-        console.log('entidad', entidad);
+
+        if (hasBreedsOutput) {
+          const breedsInfo = await this.catApiClient.getAllBreeds();
+          console.log('breedsInfo', breedsInfo);
+
+          const entidad = CatInfoAdapter.fromApi(
+            catImageData,
+            hasBreedsOutput,
+            breedsInfo,
+          );
+          console.log('entidad con razas', entidad);
+          return entidad;
+        }
+
+        const entidad = CatInfoAdapter.fromApi(catImageData, hasBreedsOutput);
+        console.log('entidad sin razas', entidad);
         return entidad;
       } else {
         throw new Error('No se pudo obtener la imagen del gato');
@@ -27,5 +41,9 @@ export class CatApiService {
       console.error('Error en la solicitud a la API de gatos:', error);
       return undefined;
     }
+  }
+
+  async getAllBreeds(): Promise<any> {
+    return await this.catApiClient.getAllBreeds();
   }
 }

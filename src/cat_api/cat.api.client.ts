@@ -12,6 +12,10 @@ export class CatApiClient {
     return this.handleRequest('GET', `images/search${queryParams}`);
   }
 
+  public async getAllBreeds(): Promise<any> {
+    return this.handleRequest('GET', 'breeds');
+  }
+
   private async handleRequest(method: 'GET', url: string): Promise<any> {
     try {
       const response: AxiosResponse = await axios.request({
