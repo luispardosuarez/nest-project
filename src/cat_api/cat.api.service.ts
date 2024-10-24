@@ -3,35 +3,36 @@ import { CatApiClient } from './cat.api.client';
 import { CatInfoAdapter } from './adapters/cat.info.adapter';
 import { ICatImage } from './interfaces/ICatImage';
 import { CatImageInputDTO } from './dto/catimage.input.dto';
+import { CatImage } from './entities/catimage';
 
 @Injectable()
 export class CatApiService {
   constructor(private readonly catApiClient: CatApiClient) {}
 
-  async getImage(input: CatImageInputDTO): Promise<any> {
+  async getImage(input: CatImageInputDTO): Promise<CatImage> {
     try {
-      const hasBreedsOutput = input.hasBreeds == true
+      const hasBreeds: boolean = String(input.hasBreeds) == 'true' ? true : false;
 
       const catImageData: ICatImage[] =
-        await this.catApiClient.get(hasBreedsOutput);
+        await this.catApiClient.get(hasBreeds);
 
       if (catImageData) {
         console.log('catImageData', catImageData);
 
-        if (hasBreedsOutput) {
+        if (hasBreeds) {
           const breedsInfo = await this.catApiClient.getAllBreeds();
           console.log('breedsInfo', breedsInfo);
 
           const entidad = CatInfoAdapter.fromApi(
             catImageData,
-            hasBreedsOutput,
+            hasBreeds,
             breedsInfo,
           );
           console.log('entidad con razas', entidad);
           return entidad;
         }
 
-        const entidad = CatInfoAdapter.fromApi(catImageData, hasBreedsOutput);
+        const entidad = CatInfoAdapter.fromApi(catImageData, hasBreeds);
         console.log('entidad sin razas', entidad);
         return entidad;
       } else {

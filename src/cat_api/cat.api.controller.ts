@@ -11,10 +11,6 @@ export class CatsController {
 
   @Get('image')
   async getImage(@Query() input: CatImageInputDTO): Promise<CatImageOutputDto> {
-    const breedInfo = await this.getCatInfo.call(input);
-
-    return {
-      breeds: breedInfo,
-    };
+    return await this.getCatInfo.call(input);
   }
 }

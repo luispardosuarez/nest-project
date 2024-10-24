@@ -1,27 +1,26 @@
-import { IsString, IsNumber, IsOptional } from 'class-validator';
-
+import { ApiProperty } from "@nestjs/swagger";
 export class CatImageOutputDto {
-  @IsString()
+  @ApiProperty()
   id: string;
 
-  @IsString()
+  @ApiProperty()
   url: string;
 
-  @IsNumber()
+ @ApiProperty()
   width: number;
 
-  @IsNumber()
+  @ApiProperty()
   height: number;
 
-  @IsOptional()
+  @ApiProperty()
   breeds?: string[];
 
-  @IsOptional()
+  @ApiProperty()
   name?: string;
 
-  @IsOptional()
+  @ApiProperty()
   origin?: string;
 
-  @IsOptional()
+  @ApiProperty()
   description?: string;
 }
