@@ -1,6 +1,6 @@
-// import { IsBoolean, IsOptional } from 'class-validator';
+import { IsBoolean, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-// import { Transform } from 'class-transformer';
+import { Transform } from 'class-transformer';
 
 export class CatImageInputDTO {
   @ApiProperty({
@@ -8,9 +8,10 @@ export class CatImageInputDTO {
     required: false,
     default: true,
   })
-  // @IsOptional()
-  // @IsBoolean()
-  // @Transform(({ value }) => value === 'true' || value === true)
+  
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => value === 'true' || value === true)
   hasBreeds?: boolean;
   breedId?: string;
 }

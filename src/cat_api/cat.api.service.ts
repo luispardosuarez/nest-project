@@ -10,7 +10,7 @@ export class CatApiService {
 
   async getImage(input: CatImageInputDTO): Promise<any> {
     try {
-      const hasBreedsOutput = input.hasBreeds;
+      const hasBreedsOutput = input.hasBreeds == true
 
       const catImageData: ICatImage[] =
         await this.catApiClient.get(hasBreedsOutput);
