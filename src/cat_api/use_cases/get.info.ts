@@ -12,9 +12,7 @@ export class GetCatInfo {
   async call(input: CatImageInputDTO): Promise<CatImageOutputDto | null> {
     const image: CatImage = await this.catApiService.getImage(input);
 
-    if (!image) return null;
-
-    if (input.hasBreeds && image.breeds && image.breeds.length > 0) {
+    if (input.hasBreeds) {
       const breedsInfo = this.mapBreeds(image);
       return this.mapOutput(image, breedsInfo);
     }
@@ -31,7 +29,6 @@ export class GetCatInfo {
     }));
   }
 
-  
   private mapOutput(image: CatImage, breedsInfo: any[]): CatImageOutputDto {
     return {
       id: image.id,      
