@@ -7,16 +7,15 @@ export class CatApiClient {
     'live_A1HMFG7sSy2c00QFzwFXWWjnoPtDKO4TNXldfAK6dLV6KhfUhVoo2PCwo2z4FIFQ';
   private readonly baseUrl = 'https://api.thecatapi.com/v1/';
 
-  public async get(hasBreeds: boolean): Promise<any> {
-    const queryParams = `?size=med&mime_types=jpg&format=json&has_breeds=${!hasBreeds ? false : true}&order=RANDOM&page=0&limit=1`;
-    return this.handleRequest('GET', `images/search${queryParams}`);
+  public async get(query: string): Promise<any> {
+    return this.handleRequest('GET', query);
   }
 
-  public async getAllBreeds(): Promise<any> {
-    return this.handleRequest('GET', 'breeds');
-  }
+  // public async getAllBreeds(): Promise<any> {
+  //   return this.handleRequest('GET', 'breeds');
+  // }
 
-  private async handleRequest(method: 'GET', url: string): Promise<any> {
+  private async handleRequest(method: string, url: string): Promise<any> {
     try {
       const response: AxiosResponse = await axios.request({
         method,

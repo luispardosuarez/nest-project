@@ -1,50 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CatApiClient } from './cat.api.client';
 import { CatInfoAdapter } from './adapters/cat.info.adapter';
 import { ICatImage } from './interfaces/ICatImage';
-import { CatImageInputDTO } from './dto/catimage.input.dto';
 import { CatImage } from './entities/catimage';
+import { BreedInfoAdapter } from './adapters/breed.info.adapter';
+import { CatBreed } from './entities/catbreed';
+import { ICatBreed } from './interfaces/ICatBreed';
 
 @Injectable()
 export class CatApiService {
   constructor(private readonly catApiClient: CatApiClient) {}
 
-  async getImage(input: CatImageInputDTO): Promise<CatImage> {
+  async getImage(hasBreeds: boolean): Promise<CatImage> {
+    const query: string = `?size=med&mime_types=jpg&format=json&has_breeds=${!hasBreeds}&order=RANDOM&page=0&limit=1`;
     try {
-      const hasBreeds: boolean = String(input.hasBreeds) == 'true' ? true : false;
-
-      const catImageData: ICatImage[] =
-        await this.catApiClient.get(hasBreeds);
+      const catImageData: ICatImage[] = await this.catApiClient.get(query);
 
       if (catImageData) {
-        console.log('catImageData', catImageData);
-
-        if (hasBreeds) {
-          const breedsInfo = await this.catApiClient.getAllBreeds();
-          console.log('breedsInfo', breedsInfo);
-
-          const entidad = CatInfoAdapter.fromApi(
-            catImageData,
-            hasBreeds,
-            breedsInfo,
-          );
-          console.log('entidad con razas', entidad);
-          return entidad;
-        }
-
         const entidad = CatInfoAdapter.fromApi(catImageData, hasBreeds);
-        console.log('entidad sin razas', entidad);
-        return entidad;
+        return (entidad);
       } else {
         throw new Error('No se pudo obtener la imagen del gato');
       }
     } catch (error) {
-      console.error('Error en la solicitud a la API de gatos:', error);
-      return undefined;
+      Logger.error('Error en la solicitud a la API de gatos:', error);
+      throw new Error('Error en la solicitud a la API de gatos')
     }
   }
 
-  async getAllBreeds(): Promise<any> {
-    return await this.catApiClient.getAllBreeds();
+  async getBreed(breedId: string): Promise<CatBreed> {
+    const query: string = `breads/${breedId}`;
+    try {
+      const catBreedData: ICatBreed[] = await this.catApiClient.get(query);
+
+      if (catBreedData) {
+        const entidad = BreedInfoAdapter.fromApi(catBreedData);
+        return (entidad);
+      } else {
+        throw new Error('No se pudo obtener la raza del gato');
+      }
+    } catch (error) {
+      Logger.error('Error en la solicitud a la API de gatos:', error);
+      throw new Error('Error en la solicitud a la API de gatos')
+    }
+    }
   }
-}
