@@ -12,19 +12,18 @@ export class CatApiService {
   constructor(private readonly catApiClient: CatApiClient) {}
 
   async getImage(hasBreeds: boolean): Promise<CatImage> {
-    const query: string = `?size=med&mime_types=jpg&format=json&has_breeds=${!hasBreeds}&order=RANDOM&page=0&limit=1`;
+    const query: string = `images/search?size=med&mime_types=jpg&format=json&has_breeds=${hasBreeds}&order=RANDOM&page=0&limit=1`;
     try {
       const catImageData: ICatImage[] = await this.catApiClient.get(query);
 
       if (catImageData) {
-        const entidad = CatInfoAdapter.fromApi(catImageData, hasBreeds);
-        return (entidad);
+        return CatInfoAdapter.fromApi(catImageData);
       } else {
         throw new Error('No se pudo obtener la imagen del gato');
       }
     } catch (error) {
       Logger.error('Error en la solicitud a la API de gatos:', error);
-      throw new Error('Error en la solicitud a la API de gatos')
+      throw new Error('Error en la solicitud');
     }
   }
 
@@ -34,14 +33,13 @@ export class CatApiService {
       const catBreedData: ICatBreed[] = await this.catApiClient.get(query);
 
       if (catBreedData) {
-        const entidad = BreedInfoAdapter.fromApi(catBreedData);
-        return (entidad);
+        return BreedInfoAdapter.fromApi(catBreedData);
       } else {
         throw new Error('No se pudo obtener la raza del gato');
       }
     } catch (error) {
       Logger.error('Error en la solicitud a la API de gatos:', error);
-      throw new Error('Error en la solicitud a la API de gatos')
-    }
+      throw new Error('Error en la solicitud a la API de gatos');
     }
   }
+}
