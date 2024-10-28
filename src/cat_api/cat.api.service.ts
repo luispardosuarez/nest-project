@@ -17,7 +17,7 @@ export class CatApiService {
       const catImageData: ICatImage[] = await this.catApiClient.get(query);
 
       if (catImageData) {
-        return CatInfoAdapter.fromApi(catImageData);
+        return CatInfoAdapter.fromApi(catImageData, hasBreeds);
       } else {
         throw new Error('No se pudo obtener la imagen del gato');
       }
@@ -30,7 +30,7 @@ export class CatApiService {
   async getBreed(breedId: string): Promise<CatBreed> {
     const query: string = `breeds/${breedId}`;
     try {
-      const catBreedData: ICatBreed[] = await this.catApiClient.get(query);
+      const catBreedData: ICatBreed = await this.catApiClient.get(query);
 
       if (catBreedData) {
         return BreedInfoAdapter.fromApi(catBreedData);

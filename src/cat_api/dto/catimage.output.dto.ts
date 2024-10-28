@@ -1,12 +1,12 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 export class CatImageOutputDto {
   @ApiProperty()
-  id: string;
+  id?: string;
 
   @ApiProperty()
   url: string;
 
- @ApiProperty()
+  @ApiProperty()
   width: number;
 
   @ApiProperty()
