@@ -28,7 +28,7 @@ export class CatApiService {
   }
 
   async getBreed(breedId: string): Promise<CatBreed> {
-    const query: string = `breads/${breedId}`;
+    const query: string = `breeds/${breedId}`;
     try {
       const catBreedData: ICatBreed[] = await this.catApiClient.get(query);
 
