@@ -18,8 +18,6 @@ export class GetCatInfo {
       
     return this.mapOutput(image, [breedsInfo]);
     }
-
-    return this.mapOutput(image);
   }
 
   private mapOutput(image: CatImage, breedsInfo?: any[]): CatImageOutputDto {
