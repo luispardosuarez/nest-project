@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 export class CatImageOutputDto {
   @ApiProperty()
-  id: string;
+  id?: string;
 
   @ApiProperty()
   url: string;

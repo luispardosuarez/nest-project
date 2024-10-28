@@ -1,11 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import axios, { AxiosResponse } from 'axios';
 
 @Injectable()
 export class CatApiClient {
-  private readonly apiKey =
-    'live_A1HMFG7sSy2c00QFzwFXWWjnoPtDKO4TNXldfAK6dLV6KhfUhVoo2PCwo2z4FIFQ';
-  private readonly baseUrl = 'https://api.thecatapi.com/v1/';
+  private readonly apiKey: string;
+  private readonly baseUrl: string;
+
+  constructor(private configService: ConfigService) {
+    this.apiKey = this.configService.get<string>('CAT_API_KEY');
+    this.baseUrl = this.configService.get<string>('CAT_API_URL');
+  }
 
   public async get(query: string): Promise<any> {
     return this.handleRequest('GET', query);

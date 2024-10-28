@@ -13,5 +13,4 @@ export class CatImageInputDTO {
   @IsBoolean()
   @Transform(({ value }) => value === 'true' || value === true)
   hasBreeds?: boolean;
-  breedId?: string;
 }
