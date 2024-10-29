@@ -1,5 +1,5 @@
+import { CatImage } from 'src/cat_api/domain/entities/catimage';
 import { ICatImage } from '../interfaces/ICatImage';
-import { CatImage } from '../entities/catimage';
 
 export class CatInfoAdapter {
   static fromApi(iCatImage: ICatImage[], hasBreeds: boolean): CatImage {

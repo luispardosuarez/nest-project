@@ -4,23 +4,17 @@ import axios, { AxiosResponse } from 'axios';
 
 @Injectable()
 export class CatApiClient {
-  constructor(private configService: ConfigService) {}
+  private readonly apiKey: string;
+  private readonly baseUrl: string;
 
-  get apiKey(): string {
-    return this.configService.get<string>('CAT_API_KEY');
-  }
-
-  get baseUrl(): string {
-    return this.configService.get<string>('CAT_API_URL');
+  constructor(private configService: ConfigService) {
+    this.apiKey = this.configService.get<string>('CAT_API_KEY');
+    this.baseUrl = this.configService.get<string>('CAT_API_URL');
   }
 
   public async get(query: string): Promise<any> {
     return this.handleRequest('GET', query);
   }
-
-  // public async getAllBreeds(): Promise<any> {
-  //   return this.handleRequest('GET', 'breeds');
-  // }
 
   private async handleRequest(method: string, url: string): Promise<any> {
     try {

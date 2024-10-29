@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CatApiService } from '../cat.api.service';
+import { CatApiService } from '../../services/cats/cat.api.service';
 import { CatImageOutputDto } from '../dto/catimage.output.dto';
 import { CatImage } from '../entities/catimage';
 import { CatImageInputDTO } from '../dto/catimage.input.dto';
