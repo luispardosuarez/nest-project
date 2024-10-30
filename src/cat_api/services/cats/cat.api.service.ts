@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { CatInfoAdapter } from './adapters/cat.info.adapter';
 import { ICatImage } from './interfaces/ICatImage';
 import { BreedInfoAdapter } from './adapters/breed.info.adapter';
@@ -9,12 +9,14 @@ import { CatBreed } from 'src/cat_api/domain/entities/catbreed';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CatModel } from 'src/cat_api/domain/entities/catmodel.entity';
 import { Repository } from 'typeorm';
+import { Cache } from '@nestjs/cache-manager';
 
 @Injectable()
 export class CatApiService {
   constructor(private readonly catApiClient: CatApiClient,
   @InjectRepository(CatModel)
-  private readonly catRepository: Repository<CatModel>
+    private readonly catRepository: Repository<CatModel>,
+    @Inject (Cache) private cacheManager: Cache
   ) {}
 
   async getImage(hasBreeds: boolean): Promise<CatImage> {
@@ -34,6 +36,13 @@ export class CatApiService {
   }
 
   async getBreed(breedId: string): Promise<CatBreed> {
+    const cacheKey = `breed-${breedId}`;
+  
+    const cachedBreed = await this.cacheManager.get<CatBreed>(cacheKey);
+    if (cachedBreed) {
+      return cachedBreed; 
+    }
+
     const query: string = `breeds/${breedId}`;
     try {
       const catBreedData: ICatBreed = await this.catApiClient.get(query);
@@ -41,11 +50,14 @@ export class CatApiService {
       if (catBreedData) {
         const catBreed = BreedInfoAdapter.fromApi(catBreedData);
 
-        const savedBreed = await this.catRepository.save({
+        await this.catRepository.save({
           name: catBreed.name,
           origin: catBreed.origin,
           description: catBreed.description,
         });
+
+        await this.cacheManager.set(cacheKey, catBreed);
+
         return catBreed;
       } else {
         throw new Error('No se pudo obtener la raza del gato');
@@ -60,4 +72,14 @@ export class CatApiService {
     const newCat = this.catRepository.create(catData);
     return await this.catRepository.save(newCat);
   }
+
+  async updateCat(id: string, catData: Partial<CatModel>): Promise<CatModel> {
+    await this.catRepository.update(id, catData);
+    return await this.catRepository.findOneBy({ id: Number(id) });
+  }
+
+  async deleteCat(id: string): Promise<void> {
+    await this.catRepository.delete(id);
+  }
+
 }

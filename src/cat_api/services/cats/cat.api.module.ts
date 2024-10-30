@@ -6,7 +6,6 @@ import { GetCatInfo } from 'src/cat_api/domain/use_cases/get.info';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CatModel } from 'src/cat_api/domain/entities/catmodel.entity';
 
-
 @Module({
   imports: [TypeOrmModule.forFeature([CatModel])],
   controllers: [CatsController],
