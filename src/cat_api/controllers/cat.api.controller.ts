@@ -34,4 +34,14 @@ export class CatsController {
     await this.catApiService.deleteCat(id);
   }
 
+  @Delete('/cache/:id')
+  async deleteCache(@Param('id') breedId: string): Promise<void> {
+    await this.catApiService.deleteBreedCache(breedId);
+  }
+
+  @Delete('/cache/clear-all')
+  async clearAllCache(): Promise<void> {
+    await this.catApiService.clearAllCache();
+  }
+
 }

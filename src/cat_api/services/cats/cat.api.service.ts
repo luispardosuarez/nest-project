@@ -73,13 +73,24 @@ export class CatApiService {
     return await this.catRepository.save(newCat);
   }
 
+  async deleteBreedCache(breedId: string): Promise<void> {
+    const cacheKey = `breed-${breedId}`;
+    await this.cacheManager.del(cacheKey);
+  }
+
+  async clearAllCache(): Promise<void> {
+    await this.cacheManager.reset();
+  }
+
   async updateCat(id: string, catData: Partial<CatModel>): Promise<CatModel> {
     await this.catRepository.update(id, catData);
+    await this.deleteBreedCache(id);
     return await this.catRepository.findOneBy({ id: Number(id) });
   }
 
   async deleteCat(id: string): Promise<void> {
     await this.catRepository.delete(id);
+    await this.deleteBreedCache(id);
   }
 
 }
