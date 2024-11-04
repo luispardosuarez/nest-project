@@ -5,8 +5,6 @@ import { CatImageOutputDto } from '../domain/dto/catimage.output.dto';
 import { CatModel } from '../domain/entities/catmodel.entity';
 import { CatApiService } from '../services/cats/cat.api.service';
 
-
-
 @Controller('cats')
 export class CatsController {
   constructor(

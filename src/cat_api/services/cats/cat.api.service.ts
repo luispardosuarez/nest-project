@@ -13,10 +13,11 @@ import { Cache } from '@nestjs/cache-manager';
 
 @Injectable()
 export class CatApiService {
-  constructor(private readonly catApiClient: CatApiClient,
-  @InjectRepository(CatModel)
+  constructor(
+    private readonly catApiClient: CatApiClient,
+    @InjectRepository(CatModel)
     private readonly catRepository: Repository<CatModel>,
-    @Inject (Cache) private cacheManager: Cache
+    @Inject(Cache) private cacheManager: Cache,
   ) {}
 
   async getImage(hasBreeds: boolean): Promise<CatImage> {
@@ -37,49 +38,18 @@ export class CatApiService {
 
   async getBreed(breedId: string): Promise<CatBreed> {
     const cacheKey = `breed-${breedId}`;
-  
     const cachedBreed = await this.cacheManager.get<CatBreed>(cacheKey);
-    if (cachedBreed) {
-      return cachedBreed; 
-    }
+    if (cachedBreed) return cachedBreed;
 
-    const query: string = `breeds/${breedId}`;
-    try {
-      const catBreedData: ICatBreed = await this.catApiClient.get(query);
-
-      if (catBreedData) {
-        const catBreed = BreedInfoAdapter.fromApi(catBreedData);
-
-        await this.catRepository.save({
-          name: catBreed.name,
-          origin: catBreed.origin,
-          description: catBreed.description,
-        });
-
-        await this.cacheManager.set(cacheKey, catBreed);
-
-        return catBreed;
-      } else {
-        throw new Error('No se pudo obtener la raza del gato');
-      }
-    } catch (error) {
-      Logger.error('Error en la solicitud a la API de gatos:', error);
-      throw new Error('Error en la solicitud a la API de gatos');
-    }
+    const catBreedData: ICatBreed = await this.catApiClient.get(`breeds/${breedId}`);
+    const catBreed = BreedInfoAdapter.fromApi(catBreedData);
+    await this.cacheManager.set(cacheKey, catBreed);
+    return catBreed;
   }
 
   async addCat(catData: Partial<CatModel>): Promise<CatModel> {
     const newCat = this.catRepository.create(catData);
     return await this.catRepository.save(newCat);
-  }
-
-  async deleteBreedCache(breedId: string): Promise<void> {
-    const cacheKey = `breed-${breedId}`;
-    await this.cacheManager.del(cacheKey);
-  }
-
-  async clearAllCache(): Promise<void> {
-    await this.cacheManager.reset();
   }
 
   async updateCat(id: string, catData: Partial<CatModel>): Promise<CatModel> {
@@ -93,4 +63,12 @@ export class CatApiService {
     await this.deleteBreedCache(id);
   }
 
+  async deleteBreedCache(breedId: string): Promise<void> {
+    const cacheKey = `breed-${breedId}`;
+    await this.cacheManager.del(cacheKey);
+  }
+
+  async clearAllCache(): Promise<void> {
+    await this.cacheManager.reset();
+  }
 }
