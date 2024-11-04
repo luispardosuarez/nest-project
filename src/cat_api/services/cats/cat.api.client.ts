@@ -26,7 +26,7 @@ export class CatApiClient {
 
       return response.data;
     } catch (error) {
-      Logger.error('error cliente', error);
+      Logger.error('client error', error);
       throw new Error(error);
     }
   }
