@@ -6,6 +6,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+
+  console.log(`DB User: ${process.env.MYSQL_USER}`);
+  console.log(`DB Password: ${process.env.MYSQL_PASSWORD}`);
+  console.log(`DB Host: ${process.env.MYSQL_HOST || 'localhost'}`);
+  console.log(`DB Name: ${process.env.MYSQL_DATABASE}`);
+  
   const options = new DocumentBuilder()
     .setTitle('cat API')
     .setDescription('The API description')

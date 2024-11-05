@@ -1,13 +1,21 @@
-import { CatModel } from "src/cat_api/domain/entities/catmodel.entity";
+import { CatModel } from "../../domain/entities/catmodel.entity";
 import { DataSource } from "typeorm";
+import { config } from "dotenv";
+import { ConfigService } from "@nestjs/config";
 
-export const databaseConfig = new DataSource({
+config();
+
+const configService = new ConfigService();
+
+export default new DataSource({
   type: 'mysql',
-  host: process.env.MYSQL_HOST || 'localhost',
-  port: parseInt(process.env.MYSQL_PORT, 10) || 3306,
-  username: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
+  host: configService.get<string>('MYSQL_HOST', 'localhost'),
+  port: configService.get<number>('MYSQL_PORT', 3306),
+  username: configService.get<string>('MYSQL_USER'),
+  password: configService.get<string>('MYSQL_PASSWORD'),
+  database: configService.get<string>('MYSQL_DATABASE'),
   entities: [CatModel],
-  synchronize: true,
+  synchronize: false,
+  migrations: ['src/cat_api/services/database/migrations/*.ts'],
 })
+
