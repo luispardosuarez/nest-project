@@ -24,7 +24,7 @@ export class CatApiService {
 
   async getImage(hasBreeds: boolean): Promise<CatImage> {
     const query: string = `images/search?size=med&mime_types=jpg&format=json&has_breeds=${hasBreeds}&order=RANDOM&page=0&limit=1`;
-    this.logger.log(`Fetching image with hasBreeds=${hasBreeds}`);
+    this.logger.log(`Fetching image with hasBreeds=${hasBreeds}`, query);
     try {
       const catImageData: ICatImage[] = await this.catApiClient.get(query);
 
