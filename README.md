@@ -36,7 +36,10 @@ Make sure you have the following installed on your machine:
 
 2. **Install dependencies**
 
-npm install
+```bash
+ npm install
+
+```
 
 3. **Setup your environment variables**
 
@@ -46,15 +49,21 @@ Create a .env file in the root directory and add your MySQL credentials
 
 You can run the application in development mode:
 
+````bash
 npm run start:dev
+
+  ```
 
 Alternatively, if you prefer Docker, you can use the following command:
 
+```bash
 docker-compose up --build
+
+````
 
 5. **Access the API**
 
-Once the application is running, you can access the API at http://localhost:3001/api.
+Once the application is running, you can access the API at http://localhost:3001/api
 
 ### 📄 Database Migrations
 
