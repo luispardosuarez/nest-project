@@ -8,7 +8,6 @@ export class CatImageInputDTO {
     required: false,
     default: true,
   })
-  
   @IsOptional()
   @IsBoolean()
   @Transform(({ value }) => value === 'true' || value === true)

@@ -8,15 +8,16 @@ import { DatabaseModule } from './cat_api/services/database/database.module';
 import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true, }),
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
     MathModule,
     CatApiModule,
     CacheModule.register({
-      ttl: 300, 
+      ttl: 300,
       max: 20,
       isGlobal: true,
-    })
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

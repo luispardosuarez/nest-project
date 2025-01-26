@@ -4,7 +4,6 @@ export class CatBreed {
     public name: string,
     public origin: string,
     public description: string,
-  ) {
-  }
+  ) {}
   breeds?: any[];
 }

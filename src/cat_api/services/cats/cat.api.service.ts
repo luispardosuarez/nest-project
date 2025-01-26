@@ -53,10 +53,14 @@ export class CatApiService {
 
     this.logger.log(`Fetching breed data for ID=${breedId}`);
     try {
-      const catBreedData: ICatBreed = await this.catApiClient.get(`breeds/${breedId}`);
+      const catBreedData: ICatBreed = await this.catApiClient.get(
+        `breeds/${breedId}`,
+      );
       const catBreed = BreedInfoAdapter.fromApi(catBreedData);
 
-      this.logger.log(`Saving breed data to cache and database for ID=${breedId}`);
+      this.logger.log(
+        `Saving breed data to cache and database for ID=${breedId}`,
+      );
       await this.catRepository.save({
         name: catBreed.name,
         origin: catBreed.origin,
@@ -66,7 +70,10 @@ export class CatApiService {
       await this.cacheManager.set(cacheKey, catBreed);
       return catBreed;
     } catch (error) {
-      this.logger.error(`Error fetching breed data for ID=${breedId}`, error.stack);
+      this.logger.error(
+        `Error fetching breed data for ID=${breedId}`,
+        error.stack,
+      );
       throw new Error('Error fetching breed data from the API');
     }
   }

@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { GetCatInfo } from '../domain/use_cases/get.info';
 import { CatImageInputDTO } from '../domain/dto/catimage.input.dto';
 import { CatImageOutputDto } from '../domain/dto/catimage.output.dto';
@@ -23,7 +32,10 @@ export class CatsController {
   }
 
   @Put(':id')
-  async updateCat(@Param('id') id: string, @Body() catData: Partial<CatModel>): Promise<CatModel> {
+  async updateCat(
+    @Param('id') id: string,
+    @Body() catData: Partial<CatModel>,
+  ): Promise<CatModel> {
     return await this.catApiService.updateCat(id, catData);
   }
 
@@ -41,5 +53,4 @@ export class CatsController {
   async clearAllCache(): Promise<void> {
     await this.catApiService.clearAllCache();
   }
-
 }

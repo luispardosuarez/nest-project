@@ -1,6 +1,5 @@
-import { CatBreed } from "src/cat_api/domain/entities/catbreed";
-import { ICatBreed } from "../interfaces/ICatBreed";
-
+import { CatBreed } from 'src/cat_api/domain/entities/catbreed';
+import { ICatBreed } from '../interfaces/ICatBreed';
 
 export class BreedInfoAdapter {
   static fromApi(iCatBreed: ICatBreed): CatBreed {

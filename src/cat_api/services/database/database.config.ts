@@ -1,7 +1,7 @@
-import { CatModel } from "../../domain/entities/catmodel.entity";
-import { DataSource } from "typeorm";
-import { config } from "dotenv";
-import { ConfigService } from "@nestjs/config";
+import { CatModel } from '../../domain/entities/catmodel.entity';
+import { DataSource } from 'typeorm';
+import { config } from 'dotenv';
+import { ConfigService } from '@nestjs/config';
 
 config();
 
@@ -17,5 +17,4 @@ export default new DataSource({
   entities: [CatModel],
   synchronize: false,
   migrations: ['src/cat_api/services/database/migrations/*.ts'],
-})
-
+});

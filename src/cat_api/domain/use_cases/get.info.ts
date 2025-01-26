@@ -10,7 +10,8 @@ export class GetCatInfo {
   constructor(private readonly catApiService: CatApiService) {}
 
   async call(input: CatImageInputDTO): Promise<CatImageOutputDto | null> {
-    const hasBreeds: boolean = String(input.hasBreeds) === 'true' ? true : false;
+    const hasBreeds: boolean =
+      String(input.hasBreeds) === 'true' ? true : false;
 
     const image: CatImage = await this.catApiService.getImage(hasBreeds);
 
@@ -22,10 +23,7 @@ export class GetCatInfo {
     return image;
   }
 
-  private mapOutput(
-    image: CatImage,
-    breedsInfo?: any,
-  ): CatImageOutputDto {
+  private mapOutput(image: CatImage, breedsInfo?: any): CatImageOutputDto {
     return {
       ...image,
       breeds: breedsInfo,
